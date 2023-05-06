@@ -1,7 +1,25 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
 import Identicon from 'identicon.js';
-import { Card, Button, ButtonGroup } from 'react-bootstrap'
+//import { Card, Button, ButtonGroup } from 'react-bootstrap'
+import { SoundOutlined, StepBackwardOutlined, StepForwardOutlined, PlayCircleFilled, PauseCircleFilled } from "@ant-design/icons";
+import { Slider, Layout, Button } from "antd";
+import './App.css'
+
+const { Footer } = Layout;
+
+// const contentStyle = {
+//   textAlign: 'center',
+//   color: '#fff',
+//   background: 'linear-gradient(90deg, rgba(255,180,180,1) 0%, rgba(255,193,193,1) 50%, rgba(255,219,118,1) 100%)',
+//   width: '86vw'
+// };
+
+const footerStyle = {
+  textAlign: 'center',
+  color: '#000',
+  backgroundColor: 'grey',
+};
 
 const Home = ({ contract }) => {
   const audioRef = useRef(null);
@@ -57,6 +75,19 @@ const Home = ({ contract }) => {
       })
     }
   }
+
+  const minSec = (secs) => {
+    const minutes = Math.floor(secs / 60);
+    const returnMin = minutes < 10 ? `0${minutes}` : minutes;
+    const seconds = Math.floor(secs % 60);
+    const returnSec = seconds < 10 ? `0${seconds}` : seconds;
+
+    return `${returnMin}:${returnSec}`;
+  }
+
+  //const { duration } = audioRef.current
+  const [trackProgress, setTrackProgress] = useState(0);
+
   useEffect(() => {
     if (isPlaying) {
       audioRef.current.play()
@@ -74,15 +105,72 @@ const Home = ({ contract }) => {
     </main>
   )
   return (
-
-    <div className="container-fluid mt-5">
-
+    <div>
       {marketItems.length > 0 ?
         <div className="row">
-          <main role="main" className="col-lg-12 mx-auto" style={{ maxWidth: '500px' }}>
+          <main role="main" className="col-lg-12 mx-auto">
             <div className="content mx-auto">
               <audio src={marketItems[currentItemIndex].audio} ref={audioRef}></audio>
-              <Card>
+              <div className="albums">
+                {marketItems.map((e) => (
+                  <div className="albumSelection">
+                    <img
+                      src={e.identicon}
+                      alt={e.name}
+                      style={{ width: "200px" }}
+                      key={e.tokenId}
+                    ></img>
+                    <p style={{ color: 'black' }}>{e.name}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <Footer style={footerStyle}>
+              <div className='musicPlayer'>
+                <div className="buttons" style={{ width: "300px", justifyContent: "start" }}>
+                  <img className="cover" alt="currentCover" src={marketItems[currentItemIndex].identicon} />
+                  <div>
+                    <div className="songTitle">{marketItems[currentItemIndex].name}</div>
+                  </div>
+                </div>
+                <div>
+                  <div className="buttons">
+                    <StepBackwardOutlined className="forback" onClick={() => skipSong(false)} />
+                    {isPlaying ? 
+                      <PauseCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} /> : 
+                      <PlayCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} />}
+                    <StepForwardOutlined className="forback" onClick={() => skipSong(true)} />
+                  </div>
+                  <div className="buttons">
+                  {minSec(trackProgress)}
+                    <Slider
+                      className="progress"
+                      value={trackProgress}
+                      step={1}
+                      min={0}
+                      // max={duration ? duration : 0}
+                      onChange={(value) => {clearInterval(audioRef.current);
+                        audioRef.current.currentTime = value; 
+                        setTrackProgress(audioRef.current.currentTime);}}
+                       onAfterChange={() => {if (!isPlaying) {
+                        setIsPlaying(true);}}}
+                      //  startTimer();}}
+                    />
+                    {/* {duration ? minSec(Math.round(duration)) : "00:00"} */}
+                  </div>
+                </div>
+                <Button onClick={() => buyMarketItem(marketItems[currentItemIndex])}>
+                {`Buy for ${ethers.utils.formatEther(marketItems[currentItemIndex].price)} ETH`}
+                </Button>
+                <div className="soundDiv">
+                  <SoundOutlined />
+                  <Slider className="volume" 
+                  defaultValue={100}
+                  onChange={(value) => {audioRef.current.volume = value/100} }/>
+                </div>
+              </div>
+            </Footer>
+            {/* <Card>
                 <Card.Header>{currentItemIndex + 1} of {marketItems.length}</Card.Header>
                 <Card.Img variant="top" src={marketItems[currentItemIndex].identicon} />
                 <Card.Body color="secondary">
@@ -120,8 +208,7 @@ const Home = ({ contract }) => {
                     </Button>
                   </div>
                 </Card.Footer>
-              </Card>
-            </div>
+              </Card> */}
           </main >
         </div >
         : (

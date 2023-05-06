@@ -27,12 +27,88 @@
 .App-link {
   color: #61dafb;
 }
+.albums {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 100%;
+  gap: 20px;
+  row-gap: 50px;
+  -webkit-box-pack: start;
+}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.albumSelection {
+  color:white;
+  text-align: center;
+  transition: transform .4s;
+}
+
+.albumSelection:hover {
+  color: white;
+  transform: scale(1.05);
+}
+.volume {
+  width:100px;
+}
+
+.soundDiv {
+  display: flex;
+  gap:15px;
+  font-size: 20px;
+  align-items:center;
+  width: 200px;
+  justify-content: flex-end;
+}
+
+.pauseplay {
+  font-size: 35px;
+  transition: transform 0.2s;
+}
+
+.pauseplay:hover {
+  transform: scale(1.1);
+}
+
+.forback {
+  font-size: 16px;
+  transition: transform 0.2s;
+}
+
+.forback:hover {
+  transform: scale(1.4);
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+
+.progress {
+  width:400px;
+}
+
+.progress .ant-slider-track {
+  background-color: #A7A7A7;
+}
+
+.progress .ant-slider-handle {
+  background-color: transparent;
+}
+
+.cover {
+  height: 120px;
+}
+
+.songTitle {
+  font-size: 16px;
+  color: black;
+}
+
+.songAlbum {
+  font-size: 12px;
 }
