@@ -122,14 +122,14 @@ export default function MyResales({ contract, account }) {
                 </Row>
                 : (
                   <main style={{ padding: "1rem 0" }}>
-                    <h2>No sold assets</h2>
+                    <h2 style={{'font-weight': '700'}}>No sold assets</h2>
                   </main>
                 )}
             </>
           </div>
           : (
             <main style={{ padding: "1rem 0" }}>
-              <h2>No listed assets</h2>
+              <h2 style={{'font-weight': '700'}}>No listed assets</h2>
             </main>
           )}
       </div>

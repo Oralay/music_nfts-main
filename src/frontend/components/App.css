@@ -9,17 +9,6 @@
   text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
 .albums {
   display: flex;
   flex-wrap: wrap;
@@ -28,7 +17,7 @@
   padding-top: 25px;
   padding-bottom: 20px;
   width: 100%;
-  height: calc(100vh - 268px);
+  height: calc(100vh - 220px);
   overflow: scroll;
   column-gap: 20px;
   row-gap: 50px;
@@ -137,9 +126,19 @@
 
 .gradientBackground {
   background: linear-gradient(90deg, rgba(255,180,180,1) 0%, rgba(255,193,193,1) 50%, rgba(255,219,118,1) 100%);
-  height: calc(100vh - 118px);
+  height: calc(100vh - 70px);
 }
 
-/* .mainContent {
+a {
+  color: white;
+  text-decoration: none; /* no underline */
+}
 
-} */
+a:hover {
+  color: antiquewhite;
+}
+
+.navbarItems {
+  padding-right: 10px;
+  padding-left: 10px;
+}

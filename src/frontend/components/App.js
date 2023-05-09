@@ -1,15 +1,82 @@
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from 'react'
 import { ethers } from "ethers"
+import {
+  Nav,
+  NavbarBrand,
+  NavbarToggler,
+  NavItem,
+  NavLink,
+  Container,
+  Button,
+} from "reactstrap";
 import MusicNFTMarketplaceAbi from '../contractsData/MusicNFTMarketplace.json'
 import MusicNFTMarketplaceAddress from '../contractsData/MusicNFTMarketplace-address.json'
-import { Spinner, Navbar, Nav, Button, Container } from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 import logo from './logo.png'
 import Home from './Home.js'
 import MyTokens from './MyTokens.js'
 import MyResales from './MyResales.js'
 import AboutUs from './AboutUs.js'
 import './App.css';
+
+function Navigation({ account, web3Handler }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+  return (
+    <>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ height: '70px' }}>
+        <Container>
+          <NavbarBrand className="logo text-uppercase" href="/"
+            style={{ letterSpacing: '2px', fontWeight: 700, marginRight: '65px' }}>
+            Chorus
+          </NavbarBrand>
+          <NavbarToggler onClick={toggle}>
+            <i className="mdi mdi-menu"></i>
+          </NavbarToggler>
+          <Nav className="navbar-center">
+            <NavItem className="navbarItems">
+              <Link to="/">Home</Link>
+            </NavItem>
+            <NavItem className="navbarItems">
+              <Link to="/my-tokens">My Tokens</Link>
+            </NavItem>
+            <NavItem className="navbarItems">
+              <Link to="/my-resales">My Resales</Link>
+            </NavItem>
+            <NavItem className="navbarItems">
+              <Link to="/about" target="_blank">About Chorus</Link>
+            </NavItem>
+          </Nav>
+          <div className="nav-button ms-auto">
+            <Nav className="navbar-end">
+              {account ? (
+                <NavLink href={`https://etherscan.io/address/${account}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="button nav-button btn-sm mx-4">
+
+                  <Button variant="outline-light">
+                    {account.slice(0, 5) + '...' + account.slice(38, 42)}
+                  </Button>
+
+                </NavLink>)
+                : (
+                  <Button
+                    onClick={web3Handler}
+                    color="none"
+                    type="button"
+                    className="btn btn-primary navbar-btn btn-rounded waves-effect waves-light"
+                    style={{ backgroundColor: '#fb3e3e', borderColor: '#fb3e3e' }}>
+                    Connect Wallet
+                  </Button>)}
+            </Nav>
+          </div>
+        </Container>
+      </nav>
+    </>
+  )
+}
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -34,38 +101,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-          <Navbar expand="lg" bg="secondary" variant="dark">
-            <Container>
-              <Navbar.Brand>
-                <img src={logo} width="200" alt="logo" />
-              </Navbar.Brand>
-              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-              <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">
-                  <Nav.Link as={Link} to="/">Home</Nav.Link>
-                  <Nav.Link as={Link} to="/my-tokens">My Tokens</Nav.Link>
-                  <Nav.Link as={Link} to="/my-resales">My Resales</Nav.Link>
-                  <Nav.Link as={Link} to="/about" target="_blank">About Chorus</Nav.Link>
-                </Nav>
-                <Nav>
-                  {account ? (
-                    <Nav.Link
-                      href={`https://etherscan.io/address/${account}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="button nav-button btn-sm mx-4">
-                      <Button variant="outline-light">
-                        {account.slice(0, 5) + '...' + account.slice(38, 42)}
-                      </Button>
-
-                    </Nav.Link>
-                  ) : (
-                    <Button onClick={web3Handler} variant="outline-light">Connect Wallet</Button>
-                  )}
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
+        <Navigation account={account} web3Handler={web3Handler} />
         <div>
           {loading ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
@@ -83,7 +119,9 @@ function App() {
               <Route path="/my-resales" element={
                 <MyResales contract={contract} account={account} />
               } />
-              <Route path="/about" element={<AboutUs />} />
+              <Route path="/about" element={
+                <AboutUs />
+              } />
             </Routes>
           )}
         </div>
