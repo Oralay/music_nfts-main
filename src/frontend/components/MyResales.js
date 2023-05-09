@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
-import Identicon from 'identicon.js';
+//import Identicon from 'identicon.js';
+import './App.css';
 
 export default function MyResales({ contract, account }) {
   const audioRefs = useRef([]);
@@ -24,14 +25,14 @@ export default function MyResales({ contract, account }) {
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri + ".json")
       const metadata = await response.json()
-      const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
+      //const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
       // define listed item object
       let purchasedItem = {
         price: i.price,
         itemId: i.tokenId,
         name: metadata.name,
         audio: metadata.audio,
-        identicon
+        image: metadata.imageCover
       }
       return purchasedItem
     }))
@@ -63,7 +64,7 @@ export default function MyResales({ contract, account }) {
     </main>
   )
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center gradientBackground">
       <div className="flex justify-center">
         {listedItems.length > 0 ?
           <div className="px-5 py-3 container">
@@ -73,7 +74,7 @@ export default function MyResales({ contract, account }) {
                 <Col key={idx} className="overflow-hidden">
                   <audio src={item.audio} ref={el => audioRefs.current[idx] = el}></audio>
                   <Card>
-                    <Card.Img variant="top" src={item.identicon} />
+                    <Card.Img variant="top" src={item.image} />
                     <Card.Body color="secondary">
                       <Card.Title>{item.name}</Card.Title>
                       <div className="d-grid px-4">
@@ -108,7 +109,7 @@ export default function MyResales({ contract, account }) {
                   {soldItems.map((item, idx) => (
                     <Col key={idx} className="overflow-hidden">
                       <Card>
-                        <Card.Img variant="top" src={item.identicon} />
+                        <Card.Img variant="top" src={item.image} />
                         <Card.Body color="secondary">
                           <Card.Title>{item.name}</Card.Title>
                           <Card.Text className="mt-1">

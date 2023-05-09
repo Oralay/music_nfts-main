@@ -1,25 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
-import Identicon from 'identicon.js';
+//import Identicon from 'identicon.js';
 //import { Card, Button, ButtonGroup } from 'react-bootstrap'
 import { SoundOutlined, StepBackwardOutlined, StepForwardOutlined, PlayCircleFilled, PauseCircleFilled } from "@ant-design/icons";
-import { Slider, Layout, Button } from "antd";
+import { Slider, Button } from "antd";
 import './App.css'
-
-const { Footer } = Layout;
-
-// const contentStyle = {
-//   textAlign: 'center',
-//   color: '#fff',
-//   background: 'linear-gradient(90deg, rgba(255,180,180,1) 0%, rgba(255,193,193,1) 50%, rgba(255,219,118,1) 100%)',
-//   width: '86vw'
-// };
-
-const footerStyle = {
-  textAlign: 'center',
-  color: '#000',
-  backgroundColor: 'grey',
-};
 
 const Home = ({ contract }) => {
   const audioRef = useRef(null);
@@ -36,19 +21,20 @@ const Home = ({ contract }) => {
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri + ".json")
       const metadata = await response.json()
-      const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
+      //const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
       // define item object
       let item = {
         price: i.price,
         itemId: i.tokenId,
         name: metadata.name,
         audio: metadata.audio,
-        identicon
+        image: metadata.imageCover
       }
       return item
     }))
     setMarketItems(marketItems)
     setLoading(false)
+    console.log(marketItems.length)
   }
   const buyMarketItem = async (item) => {
     await (await contract.buyToken(item.itemId, { value: item.price })).wait()
@@ -107,69 +93,77 @@ const Home = ({ contract }) => {
   return (
     <div>
       {marketItems.length > 0 ?
-        <div className="row">
-          <main role="main" className="col-lg-12 mx-auto">
-            <div className="content mx-auto">
+          <main>
+            <div className='mainContent'>
               <audio src={marketItems[currentItemIndex].audio} ref={audioRef}></audio>
               <div className="albums">
                 {marketItems.map((e) => (
-                  <div className="albumSelection">
+                  <div className="albumSelection" key={e.itemId}>
                     <img
-                      src={e.identicon}
+                      src={e.image}
                       alt={e.name}
-                      style={{ width: "200px" }}
-                      key={e.tokenId}
+                      style={{ width: "200px", cursor: 'pointer' }}
+                      onClick={() => {console.log("i was clicked yo");
+                      console.log(e.tokenId)}}
                     ></img>
                     <p style={{ color: 'black' }}>{e.name}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <Footer style={footerStyle}>
+            {/* Audio player starts here */}
+            <div className="footerStyle">
               <div className='musicPlayer'>
                 <div className="buttons" style={{ width: "300px", justifyContent: "start" }}>
-                  <img className="cover" alt="currentCover" src={marketItems[currentItemIndex].identicon} />
+                  <img className="cover" alt="currentCover" src={marketItems[currentItemIndex].image} />
                   <div>
                     <div className="songTitle">{marketItems[currentItemIndex].name}</div>
+                    <Button onClick={() => buyMarketItem(marketItems[currentItemIndex])}>
+                      {`Buy for ${ethers.utils.formatEther(marketItems[currentItemIndex].price)} ETH`}
+                    </Button>
                   </div>
                 </div>
-                <div>
+                <div className="sliderAndButtons">
                   <div className="buttons">
                     <StepBackwardOutlined className="forback" onClick={() => skipSong(false)} />
-                    {isPlaying ? 
-                      <PauseCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} /> : 
+                    {isPlaying ?
+                      <PauseCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} /> :
                       <PlayCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} />}
                     <StepForwardOutlined className="forback" onClick={() => skipSong(true)} />
                   </div>
                   <div className="buttons">
-                  {minSec(trackProgress)}
+                    {minSec(trackProgress)}
                     <Slider
                       className="progress"
                       value={trackProgress}
                       step={1}
                       min={0}
                       // max={duration ? duration : 0}
-                      onChange={(value) => {clearInterval(audioRef.current);
-                        audioRef.current.currentTime = value; 
-                        setTrackProgress(audioRef.current.currentTime);}}
-                       onAfterChange={() => {if (!isPlaying) {
-                        setIsPlaying(true);}}}
-                      //  startTimer();}}
+                      onChange={(value) => {
+                        clearInterval(audioRef.current);
+                        audioRef.current.currentTime = value;
+                        setTrackProgress(audioRef.current.currentTime);
+                      }}
+                      onAfterChange={() => {
+                        if (!isPlaying) {
+                          setIsPlaying(true);
+                        }
+                      }}
+                    //  startTimer();}}
                     />
                     {/* {duration ? minSec(Math.round(duration)) : "00:00"} */}
                   </div>
                 </div>
-                <Button onClick={() => buyMarketItem(marketItems[currentItemIndex])}>
-                {`Buy for ${ethers.utils.formatEther(marketItems[currentItemIndex].price)} ETH`}
-                </Button>
+
                 <div className="soundDiv">
                   <SoundOutlined />
-                  <Slider className="volume" 
-                  defaultValue={100}
-                  onChange={(value) => {audioRef.current.volume = value/100} }/>
+                  <Slider className="volume"
+                    defaultValue={100}
+                    onChange={(value) => { audioRef.current.volume = value / 100 }} />
                 </div>
               </div>
-            </Footer>
+            </div>
+            {/* Audio player ends here */}
             {/* <Card>
                 <Card.Header>{currentItemIndex + 1} of {marketItems.length}</Card.Header>
                 <Card.Img variant="top" src={marketItems[currentItemIndex].identicon} />
@@ -210,7 +204,6 @@ const Home = ({ contract }) => {
                 </Card.Footer>
               </Card> */}
           </main >
-        </div >
         : (
           <main style={{ padding: "1rem 0" }}>
             <h2>No listed assets</h2>

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
-import Identicon from 'identicon.js';
+//import Identicon from 'identicon.js';
 import { Row, Col, Card, Button, InputGroup, Form } from 'react-bootstrap'
+import './App.css';
 
 export default function MyTokens({ contract }) {
   const audioRefs = useRef([]);
@@ -21,14 +22,14 @@ export default function MyTokens({ contract }) {
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri + ".json")
       const metadata = await response.json()
-      const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
+      //const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
       // define item object
       let item = {
         price: i.price,
         itemId: i.tokenId,
         name: metadata.name,
         audio: metadata.audio,
-        identicon,
+        image: metadata.imageCover,
         resellPrice: null
       }
       return item
@@ -64,7 +65,7 @@ export default function MyTokens({ contract }) {
   )
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center gradientBackground">
       {myTokens.length > 0 ?
         <div className="px-5 container">
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
@@ -72,7 +73,7 @@ export default function MyTokens({ contract }) {
               <Col key={idx} className="overflow-hidden">
                 <audio src={item.audio} key={idx} ref={el => audioRefs.current[idx] = el}></audio>
                 <Card>
-                  <Card.Img variant="top" src={item.identicon} />
+                  <Card.Img variant="top" src={item.image} />
                   <Card.Body color="secondary">
                     <Card.Title>{item.name}</Card.Title>
                     <div className="d-grid px-4">
@@ -120,7 +121,7 @@ export default function MyTokens({ contract }) {
         </div>
         : (
           <main style={{ padding: "1rem 0" }}>
-            <h2>No owned tokens</h2>
+            <h2 style={{'font-weight': '700'}}>No owned tokens</h2>
           </main>
         )}
     </div>

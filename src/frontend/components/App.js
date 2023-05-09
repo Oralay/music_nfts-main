@@ -34,11 +34,10 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <>
           <Navbar expand="lg" bg="secondary" variant="dark">
             <Container>
               <Navbar.Brand>
-                <img src={logo} width="200" className="" alt="logo" />
+                <img src={logo} width="200" alt="logo" />
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="responsive-navbar-nav" />
               <Navbar.Collapse id="responsive-navbar-nav">
@@ -67,7 +66,6 @@ function App() {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-        </>
         <div>
           {loading ? (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
