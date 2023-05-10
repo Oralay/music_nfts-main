@@ -1,28 +1,18 @@
 import { Link, BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from 'react'
 import { ethers } from "ethers"
-import {
-  Nav,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-  Container,
-  Button,
-} from "reactstrap";
+import { Nav, NavbarBrand, NavItem, NavLink, Container, Button, Spinner } from "reactstrap";
 import MusicNFTMarketplaceAbi from '../contractsData/MusicNFTMarketplace.json'
 import MusicNFTMarketplaceAddress from '../contractsData/MusicNFTMarketplace-address.json'
-import { Spinner } from 'react-bootstrap'
-import logo from './logo.png'
 import Home from './Home.js'
 import MyTokens from './MyTokens.js'
 import MyResales from './MyResales.js'
-import AboutUs from './AboutUs.js'
 import './App.css';
 
 function Navigation({ account, web3Handler }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const toggle = () => setIsOpen(!isOpen);
+  // console.log(isOpen);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ height: '70px' }}>
@@ -31,24 +21,26 @@ function Navigation({ account, web3Handler }) {
             style={{ letterSpacing: '2px', fontWeight: 700, marginRight: '65px' }}>
             Chorus
           </NavbarBrand>
-          <NavbarToggler onClick={toggle}>
-            <i className="mdi mdi-menu"></i>
+          {/* <NavbarToggler onClick={toggle}>
+          <span className="navbar-toggler-icon"></span>
           </NavbarToggler>
-          <Nav className="navbar-center">
-            <NavItem className="navbarItems">
-              <Link to="/">Home</Link>
-            </NavItem>
-            <NavItem className="navbarItems">
-              <Link to="/my-tokens">My Tokens</Link>
-            </NavItem>
-            <NavItem className="navbarItems">
-              <Link to="/my-resales">My Resales</Link>
-            </NavItem>
-            <NavItem className="navbarItems">
-              <Link to="/about" target="_blank">About Chorus</Link>
-            </NavItem>
-          </Nav>
-          <div className="nav-button ms-auto">
+          <Collapse isOpen={!isOpen}> */}
+            <Nav className="navbar-center">
+              <NavItem className="navbarItems">
+                <Link to="/">Home</Link>
+              </NavItem>
+              <NavItem className="navbarItems">
+                <Link to="/my-tokens">My Tokens</Link>
+              </NavItem>
+              <NavItem className="navbarItems">
+                <Link to="/my-resales">My Resales</Link>
+              </NavItem>
+              <NavItem className="navbarItems">
+                <a href="https://chorus-about.vercel.app/">About Chorus</a>
+              </NavItem>
+            </Nav>
+            {/* </Collapse> */}
+            <div className="nav-button ms-auto">
             <Nav className="navbar-end">
               {account ? (
                 <NavLink href={`https://etherscan.io/address/${account}`}
@@ -71,8 +63,8 @@ function Navigation({ account, web3Handler }) {
                     Connect Wallet
                   </Button>)}
             </Nav>
-          </div>
-        </Container>
+            </div>
+            </Container>
       </nav>
     </>
   )
@@ -119,9 +111,9 @@ function App() {
               <Route path="/my-resales" element={
                 <MyResales contract={contract} account={account} />
               } />
-              <Route path="/about" element={
+              {/* <Route path="/about" element={
                 <AboutUs />
-              } />
+              } /> */}
             </Routes>
           )}
         </div>
