@@ -111,15 +111,11 @@ function App() {
               <Route path="/my-resales" element={
                 <MyResales contract={contract} account={account} />
               } />
-              {/* <Route path="/about" element={
-                <AboutUs />
-              } /> */}
             </Routes>
           )}
         </div>
       </div>
     </BrowserRouter>
-
   );
 }
 

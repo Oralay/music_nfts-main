@@ -34,7 +34,6 @@ const Home = ({ contract }) => {
     }))
     setMarketItems(marketItems)
     setLoading(false)
-    console.log(marketItems.length)
   }
   const buyMarketItem = async (item) => {
     await (await contract.buyToken(item.itemId, { value: item.price })).wait()
@@ -104,7 +103,7 @@ const Home = ({ contract }) => {
                       alt={e.name}
                       style={{ width: "200px", cursor: 'pointer' }}
                       onClick={() => {console.log("i was clicked yo");
-                      console.log(e.tokenId)}}
+                      console.log(e)}}
                     ></img>
                     <p style={{ color: 'black' }}>{e.name}</p>
                   </div>

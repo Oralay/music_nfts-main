@@ -8,7 +8,7 @@ contract MusicNFTMarketplace is ERC721("DAppFi", "DAPP"), Ownable {
     // string public baseURI =
     //     "https://bafybeidhjjbjonyqcahuzlpt7sznmh4xrlbspa3gstop5o47l6gsiaffee.ipfs.nftstorage.link/";
     string public baseURI =
-        "https://bafybeib5jizq5cdlqjndfqnrtllcn46isvjgo5xxhjcrh3fcxlc2akligm.ipfs.nftstorage.link/";
+        "https://bafybeicekfqex4mngokmmv3ijaa73clw27cmfglaf6h64b23vdan5qenka.ipfs.nftstorage.link/";
     string public baseExtension = ".json";
     address public artist;
     uint256 public royaltyFee;

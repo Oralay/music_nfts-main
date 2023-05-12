@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
 import { Row, Col, Card, Button } from 'react-bootstrap'
-//import Identicon from 'identicon.js';
 import './App.css';
 
 export default function MyResales({ contract, account }) {
@@ -25,7 +24,6 @@ export default function MyResales({ contract, account }) {
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri + ".json")
       const metadata = await response.json()
-      //const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
       // define listed item object
       let purchasedItem = {
         price: i.price,
