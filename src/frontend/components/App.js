@@ -10,9 +10,6 @@ import MyResales from './MyResales.js'
 import './App.css';
 
 function Navigation({ account, web3Handler }) {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const toggle = () => setIsOpen(!isOpen);
-  // console.log(isOpen);
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark" style={{ height: '70px' }}>
@@ -21,10 +18,6 @@ function Navigation({ account, web3Handler }) {
             style={{ letterSpacing: '2px', fontWeight: 700, marginRight: '65px' }}>
             Chorus
           </NavbarBrand>
-          {/* <NavbarToggler onClick={toggle}>
-          <span className="navbar-toggler-icon"></span>
-          </NavbarToggler>
-          <Collapse isOpen={!isOpen}> */}
             <Nav className="navbar-center">
               <NavItem className="navbarItems">
                 <Link to="/">Home</Link>
@@ -39,7 +32,6 @@ function Navigation({ account, web3Handler }) {
                 <a href="https://chorus-about.vercel.app/">About Chorus</a>
               </NavItem>
             </Nav>
-            {/* </Collapse> */}
             <div className="nav-button ms-auto">
             <Nav className="navbar-end">
               {account ? (

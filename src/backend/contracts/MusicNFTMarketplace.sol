@@ -4,9 +4,7 @@ pragma solidity ^0.8.4;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract MusicNFTMarketplace is ERC721("DAppFi", "DAPP"), Ownable {
-    // string public baseURI =
-    //     "https://bafybeidhjjbjonyqcahuzlpt7sznmh4xrlbspa3gstop5o47l6gsiaffee.ipfs.nftstorage.link/";
+contract MusicNFTMarketplace is ERC721("Chorus", "CHRS"), Ownable {
     string public baseURI =
         "https://bafybeicekfqex4mngokmmv3ijaa73clw27cmfglaf6h64b23vdan5qenka.ipfs.nftstorage.link/";
     string public baseExtension = ".json";

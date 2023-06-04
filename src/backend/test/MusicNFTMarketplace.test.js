@@ -4,12 +4,12 @@ const toWei = (num) => ethers.utils.parseEther(num.toString())
 const fromWei = (num) => ethers.utils.formatEther(num)
 
 describe("MusicNFTMarketplace", function () {
-
-  let nftMarketplace
+  let nftMarketplace;
   let deployer, artist, user1, user2, users;
   let royaltyFee = toWei(0.01); // 1 ether = 10^18 wei
-  let URI = "https://bafybeidhjjbjonyqcahuzlpt7sznmh4xrlbspa3gstop5o47l6gsiaffee.ipfs.nftstorage.link/"
-  let prices = [toWei(1), toWei(2), toWei(3), toWei(4), toWei(5), toWei(6), toWei(7), toWei(8)]
+  let URI = "https://bafybeicekfqex4mngokmmv3ijaa73clw27cmfglaf6h64b23vdan5qenka.ipfs.nftstorage.link/"
+  let prices = [toWei(1), toWei(2), toWei(3), toWei(4), toWei(5), toWei(6), toWei(7), toWei(8), toWei(9), toWei(10),
+    toWei(10), toWei(9), toWei(8), toWei(7), toWei(6), toWei(5), toWei(4), toWei(3), toWei(2), toWei(1)]
   let deploymentFees = toWei(prices.length * 0.01)
   beforeEach(async function () {
     // Get the ContractFactory and Signers here.
@@ -29,8 +29,8 @@ describe("MusicNFTMarketplace", function () {
   describe("Deployment", function () {
 
     it("Should track name, symbol, URI, royalty fee and artist", async function () {
-      const nftName = "DAppFi"
-      const nftSymbol = "DAPP"
+      const nftName = "Chorus"
+      const nftSymbol = "CHRS"
       expect(await nftMarketplace.name()).to.equal(nftName);
       expect(await nftMarketplace.symbol()).to.equal(nftSymbol);
       expect(await nftMarketplace.baseURI()).to.equal(URI);
@@ -39,7 +39,7 @@ describe("MusicNFTMarketplace", function () {
     });
 
     it("Should mint then list all the music nfts", async function () {
-      expect(await nftMarketplace.balanceOf(nftMarketplace.address)).to.equal(8);
+      expect(await nftMarketplace.balanceOf(nftMarketplace.address)).to.equal(20);
       // Get each item from the marketItems array then check fields to ensure they are correct
       await Promise.all(prices.map(async (i, indx) => {
         const item = await nftMarketplace.marketItems(indx)

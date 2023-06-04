@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers"
-//import Identicon from 'identicon.js';
-//import { Card, Button, ButtonGroup } from 'react-bootstrap'
 import { SoundOutlined, StepBackwardOutlined, StepForwardOutlined, PlayCircleFilled, PauseCircleFilled } from "@ant-design/icons";
 import { Slider, Button } from "antd";
 import './App.css'
@@ -21,7 +19,6 @@ const Home = ({ contract }) => {
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri + ".json")
       const metadata = await response.json()
-      //const identicon = `data:image/png;base64,${new Identicon(metadata.name + metadata.price, 330).toString()}`
       // define item object
       let item = {
         price: i.price,
@@ -61,17 +58,27 @@ const Home = ({ contract }) => {
     }
   }
 
-  const minSec = (secs) => {
-    const minutes = Math.floor(secs / 60);
-    const returnMin = minutes < 10 ? `0${minutes}` : minutes;
-    const seconds = Math.floor(secs % 60);
-    const returnSec = seconds < 10 ? `0${seconds}` : seconds;
+  const formatTime = (time) => {
+    if (time && !isNaN(time)) {
+      const minutes = Math.floor(time / 60);
+      const formatMinutes =
+        minutes < 10 ? `0${minutes}` : `${minutes}`;
+      const seconds = Math.floor(time % 60);
+      const formatSeconds =
+        seconds < 10 ? `0${seconds}` : `${seconds}`;
+      return `${formatMinutes}:${formatSeconds}`;
+    }
+    return '00:00';
+  };
 
-    return `${returnMin}:${returnSec}`;
-  }
-
-  //const { duration } = audioRef.current
   const [trackProgress, setTrackProgress] = useState(0);
+  const [timeProgress, setTimeProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const onLoadedMetadata = () => {
+    const seconds = audioRef.current.duration;
+    setDuration(seconds);
+  };
 
   useEffect(() => {
     if (isPlaying) {
@@ -81,7 +88,7 @@ const Home = ({ contract }) => {
     }
   })
   useEffect(() => {
-    !marketItems && loadMarketplaceItems()
+    !marketItems && loadMarketplaceItems();
   })
 
   if (loading) return (
@@ -94,16 +101,16 @@ const Home = ({ contract }) => {
       {marketItems.length > 0 ?
           <main>
             <div className='mainContent'>
-              <audio src={marketItems[currentItemIndex].audio} ref={audioRef}></audio>
+              <audio src={marketItems[currentItemIndex].audio} ref={audioRef} 
+                      onLoadedMetadata={onLoadedMetadata} />
               <div className="albums">
-                {marketItems.map((e) => (
-                  <div className="albumSelection" key={e.itemId}>
+                {marketItems.map((e, index) => (
+                  <div className="albumSelection" key={index}>
                     <img
                       src={e.image}
                       alt={e.name}
                       style={{ width: "200px", cursor: 'pointer' }}
-                      onClick={() => {console.log("i was clicked yo");
-                      console.log(e)}}
+                      onClick={() => {setCurrentItemIndex(index); setIsPlaying(true)}}
                     ></img>
                     <p style={{ color: 'black' }}>{e.name}</p>
                   </div>
@@ -131,7 +138,7 @@ const Home = ({ contract }) => {
                     <StepForwardOutlined className="forback" onClick={() => skipSong(true)} />
                   </div>
                   <div className="buttons">
-                    {minSec(trackProgress)}
+                    {formatTime(timeProgress)}
                     <Slider
                       className="progress"
                       value={trackProgress}
@@ -150,6 +157,7 @@ const Home = ({ contract }) => {
                       }}
                     //  startTimer();}}
                     />
+                    {formatTime(duration)}
                     {/* {duration ? minSec(Math.round(duration)) : "00:00"} */}
                   </div>
                 </div>
