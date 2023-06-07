@@ -7,7 +7,7 @@ describe("MusicNFTMarketplace", function () {
   let nftMarketplace;
   let deployer, artist, user1, user2, users;
   let royaltyFee = toWei(0.01); // 1 ether = 10^18 wei
-  let URI = "https://bafybeicekfqex4mngokmmv3ijaa73clw27cmfglaf6h64b23vdan5qenka.ipfs.nftstorage.link/"
+  let URI = "https://bafybeig4whp5gkcx6g4rwfsf6nboyihh5jzvoj5uuy7kjrui57bmrfut3y.ipfs.nftstorage.link/";
   let prices = [toWei(1), toWei(2), toWei(3), toWei(4), toWei(5), toWei(6), toWei(7), toWei(8), toWei(9), toWei(10),
     toWei(10), toWei(9), toWei(8), toWei(7), toWei(6), toWei(5), toWei(4), toWei(3), toWei(2), toWei(1)]
   let deploymentFees = toWei(prices.length * 0.01)
@@ -27,7 +27,6 @@ describe("MusicNFTMarketplace", function () {
   });
 
   describe("Deployment", function () {
-
     it("Should track name, symbol, URI, royalty fee and artist", async function () {
       const nftName = "Chorus"
       const nftSymbol = "CHRS"
@@ -37,7 +36,6 @@ describe("MusicNFTMarketplace", function () {
       expect(await nftMarketplace.royaltyFee()).to.equal(royaltyFee);
       expect(await nftMarketplace.artist()).to.equal(artist.address);
     });
-
     it("Should mint then list all the music nfts", async function () {
       expect(await nftMarketplace.balanceOf(nftMarketplace.address)).to.equal(20);
       // Get each item from the marketItems array then check fields to ensure they are correct
@@ -51,10 +49,9 @@ describe("MusicNFTMarketplace", function () {
     it("Ether balance should equal deployment fees", async function () {
       expect(await ethers.provider.getBalance(nftMarketplace.address)).to.equal(deploymentFees)
     });
-
   });
-  describe("Updating royalty fee", function () {
 
+  describe("Updating royalty fee", function () {
     it("Only deployer should be able to update royalty fee", async function () {
       const fee = toWei(0.02)
       await nftMarketplace.updateRoyaltyFee(fee)
@@ -63,8 +60,8 @@ describe("MusicNFTMarketplace", function () {
       ).to.be.revertedWith("Ownable: caller is not the owner");
       expect(await nftMarketplace.royaltyFee()).to.equal(fee)
     });
-
   });
+  
   describe("Buying tokens", function () {
     it("Should update seller to zero address, transfer NFT, pay seller, pay royalty to artist and emit a MarketItemBought event", async function () {
       const deployerInitalEthBal = await deployer.getBalance()

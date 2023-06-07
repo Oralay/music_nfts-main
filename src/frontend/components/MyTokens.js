@@ -28,6 +28,7 @@ export default function MyTokens({ contract }) {
         price: i.price,
         itemId: i.tokenId,
         name: metadata.name,
+        artist: metadata.artist,
         audio: metadata.audio,
         image: metadata.imageCover,
         resellPrice: null
@@ -65,7 +66,7 @@ export default function MyTokens({ contract }) {
   )
 
   return (
-    <div className="flex justify-center gradientBackground">
+    <div className="flex justify-center align-center gradientBackground">
       {myTokens.length > 0 ?
         <div className="px-5 container">
           <Row xs={1} md={2} lg={4} className="g-4 py-5">
@@ -76,6 +77,7 @@ export default function MyTokens({ contract }) {
                   <Card.Img variant="top" src={item.image} />
                   <Card.Body color="secondary">
                     <Card.Title>{item.name}</Card.Title>
+                    <Card.Title style={{fontWeight: 400}}>{item.artist}</Card.Title>
                     <div className="d-grid px-4">
                       <Button variant="secondary" onClick={() => {
                         setPrevious(selected)
@@ -122,8 +124,8 @@ export default function MyTokens({ contract }) {
           </Row>
         </div>
         : (
-          <main style={{ padding: "1rem 0" }}>
-            <h2 style={{'font-weight': '700'}}>No owned tokens</h2>
+          <main className='emptyList'>
+            <h2 style={{ fontWeight: '700'}}>No owned tokens</h2>
           </main>
         )}
     </div>

@@ -30,6 +30,7 @@ export default function MyResales({ contract, account }) {
         price: i.price,
         itemId: i.tokenId,
         name: metadata.name,
+        artist: metadata.artist,
         audio: metadata.audio,
         image: metadata.imageCover
       }
@@ -76,6 +77,7 @@ export default function MyResales({ contract, account }) {
                     <Card.Img variant="top" src={item.image} />
                     <Card.Body color="secondary">
                       <Card.Title>{item.name}</Card.Title>
+                      <Card.Title>{item.artist}</Card.Title>
                       <div className="d-grid px-4">
                         <Button variant="secondary" onClick={() => {
                           setPrevious(selected)
@@ -113,6 +115,7 @@ export default function MyResales({ contract, account }) {
                         <Card.Img variant="top" src={item.image} />
                         <Card.Body color="secondary">
                           <Card.Title>{item.name}</Card.Title>
+                          <Card.Title style={{fontWeight: 400}}>{item.artist}</Card.Title>
                           <Card.Text className="mt-1">
                             {ethers.utils.formatEther(item.price)} ETH
                           </Card.Text>
