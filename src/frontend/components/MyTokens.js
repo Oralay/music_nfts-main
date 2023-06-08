@@ -69,14 +69,14 @@ export default function MyTokens({ contract }) {
     <div className="flex justify-center align-center gradientBackground">
       {myTokens.length > 0 ?
         <div className="px-5 container">
-          <Row xs={1} md={2} lg={4} className="g-4 py-5">
+          <Row xs={1} md={2} lg={4} className="py-5">
             {myTokens.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
                 <audio src={item.audio} key={idx} ref={el => audioRefs.current[idx] = el}></audio>
                 <Card>
                   <Card.Img variant="top" src={item.image} />
                   <Card.Body color="secondary">
-                    <Card.Title>{item.name}</Card.Title>
+                    <Card.Title style={{fontWeight: 600}}>{item.name}</Card.Title>
                     <Card.Title style={{fontWeight: 400}}>{item.artist}</Card.Title>
                     <div className="d-grid px-4">
                       <Button variant="secondary" onClick={() => {
@@ -85,15 +85,9 @@ export default function MyTokens({ contract }) {
                         if (!isPlaying || idx === selected) setIsPlaying(!isPlaying)
                       }}>
                         {isPlaying && selected === idx ? (
-                          // <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" className="bi bi-pause" viewBox="0 0 16 16">
-                          //   <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z" />
-                          // </svg>
-                          <PauseCircleFilled />
+                          <PauseCircleFilled style={{verticalAlign: 0}}/>
                         ) : (
-                          // <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" className="bi bi-play" viewBox="0 0 16 16">
-                          //   <path d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
-                          // </svg>
-                          <PlayCircleFilled />
+                          <PlayCircleFilled style={{verticalAlign: 0}}/>
                         )}
                       </Button>
                     </div>

@@ -59,27 +59,27 @@ const Home = ({ contract }) => {
     }
   }
 
-  const formatTime = (time) => {
-    if (time && !isNaN(time)) {
-      const minutes = Math.floor(time / 60);
-      const formatMinutes =
-        minutes < 10 ? `0${minutes}` : `${minutes}`;
-      const seconds = Math.floor(time % 60);
-      const formatSeconds =
-        seconds < 10 ? `0${seconds}` : `${seconds}`;
-      return `${formatMinutes}:${formatSeconds}`;
-    }
-    return '00:00';
-  };
+  // const formatTime = (time) => {
+  //   if (time && !isNaN(time)) {
+  //     const minutes = Math.floor(time / 60);
+  //     const formatMinutes =
+  //       minutes < 10 ? `0${minutes}` : `${minutes}`;
+  //     const seconds = Math.floor(time % 60);
+  //     const formatSeconds =
+  //       seconds < 10 ? `0${seconds}` : `${seconds}`;
+  //     return `${formatMinutes}:${formatSeconds}`;
+  //   }
+  //   return '00:00';
+  // };
 
-  const [trackProgress, setTrackProgress] = useState(0);
-  const [timeProgress, setTimeProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
+  // const [trackProgress, setTrackProgress] = useState(0);
+  // const [timeProgress, setTimeProgress] = useState(0);
+  // const [duration, setDuration] = useState(0);
 
-  const onLoadedMetadata = () => {
-    const seconds = audioRef.current.duration;
-    setDuration(seconds);
-  };
+  // const onLoadedMetadata = () => {
+  //   const seconds = audioRef.current.duration;
+  //   setDuration(seconds);
+  // };
 
   useEffect(() => {
     if (isPlaying) {
@@ -88,6 +88,7 @@ const Home = ({ contract }) => {
       audioRef.current.pause()
     }
   })
+
   useEffect(() => {
     !marketItems && loadMarketplaceItems();
   })
@@ -103,7 +104,8 @@ const Home = ({ contract }) => {
           <main>
             <div className='mainContent'>
               <audio src={marketItems[currentItemIndex].audio} ref={audioRef} 
-                      onLoadedMetadata={onLoadedMetadata} />
+                      // onLoadedMetadata={onLoadedMetadata} 
+                      />
               <div className="albums">
                 {marketItems.map((song, index) => (
                   <div className="albumSelection" key={index}>
@@ -140,7 +142,7 @@ const Home = ({ contract }) => {
                       <PlayCircleFilled className="pauseplay" onClick={() => setIsPlaying(!isPlaying)} />}
                     <StepForwardOutlined className="forback" onClick={() => skipSong(true)} />
                   </div>
-                  <div className="buttons">
+                  {/* <div className="buttons">
                     {formatTime(timeProgress)}
                     <Slider
                       className="progress"
@@ -158,11 +160,10 @@ const Home = ({ contract }) => {
                           setIsPlaying(true);
                         }
                       }}
-                    //  startTimer();}}
+
                     />
                     {formatTime(duration)}
-                    {/* {duration ? minSec(Math.round(duration)) : "00:00"} */}
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="soundDiv">

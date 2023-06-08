@@ -5,8 +5,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract MusicNFTMarketplace is ERC721("Chorus", "CHRS"), Ownable {
-    // string public baseURI =
-    //     "https://bafybeicekfqex4mngokmmv3ijaa73clw27cmfglaf6h64b23vdan5qenka.ipfs.nftstorage.link/";
     string public baseURI = 
     "https://bafybeig4whp5gkcx6g4rwfsf6nboyihh5jzvoj5uuy7kjrui57bmrfut3y.ipfs.nftstorage.link/";
     string public baseExtension = ".json";
